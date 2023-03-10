@@ -1,0 +1,32 @@
+ //Para el form Registro
+  const [Register, setRegister] = useState(initialRegister);
+  //Para el error de Email digitado incorrect
+  const [errEmail, setErrEmail] = useState(false);
+  //Para el error de pass digitado incorrect
+  const [errorPass, seterrorPass] = useState(false);
+  //Para desabilitar el btn de por defecto
+  const [btnDisable, setBtnDisable] = useState(true);
+
+  const Navigation = useNavigation();
+
+  const HandleOnchage = (name, data) => {
+    //TEsting para el email
+    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\d]{8,}$/;
+    //Testing para el pass
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    setRegister({ ...Register, [name]: data });
+
+    //Validacion del email y pass
+    const isEmailValid = emailRegex.test(Register.email);
+    const isPasswordValid = passwordRegex.test(Register.password);
+    const isFormValid = isEmailValid && isPasswordValid;
+
+    //Deshabilitar btn
+    setBtnDisable(!isFormValid);
+
+    return name === "email"
+      ? setErrEmail(!isEmailValid)
+      : name === "password"
+      ? seterrorPass(!isPasswordValid)
+      : null;
+  };
